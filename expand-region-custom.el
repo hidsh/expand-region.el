@@ -60,6 +60,14 @@ always be copied to the register named after that character."
   :type 'string)
 
 ;;;###autoload
+(defcustom expand-region-autocopy-kill-ring nil
+  "If set to non-nil,  the contents of the most recent expand or contract command will
+always be copied to the kill-ring."
+  :group 'expand-region
+  :type '(choice (const :tag "Enable autocopy to kill-ring" t)
+                 (const :tag "Disable autocopy to kill-ring" nil)))
+
+;;;###autoload
 (defcustom expand-region-skip-whitespace t
   "If expand-region should skip past whitespace on initial expansion"
   :group 'expand-region

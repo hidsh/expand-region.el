@@ -59,6 +59,10 @@
     (set-register (aref expand-region-autocopy-register 0)
                   (filter-buffer-substring (region-beginning) (region-end)))))
 
+(defun er--copy-region-to-kill-ring ()
+  (when expand-region-autocopy-kill-ring
+    (kill-new (filter-buffer-substring (region-beginning) (region-end)))))
+
 ;; save-mark-and-excursion in Emacs 25 works like save-excursion did before
 (eval-when-compile
   (when (< emacs-major-version 25)
@@ -117,6 +121,7 @@ moving point or mark as little as possible."
       (set-mark best-end))
 
     (er--copy-region-to-register)
+    (er--copy-region-to-kill-ring)
 
     (when (and (= best-start (point-min))
                (= best-end (point-max))) ;; We didn't find anything new, so exit early
@@ -165,6 +170,7 @@ before calling `er/expand-region' for the first time."
         (set-mark end)
 
         (er--copy-region-to-register)
+        (er--copy-region-to-kill-ring)
 
         (when (eq start end)
           (deactivate-mark)
